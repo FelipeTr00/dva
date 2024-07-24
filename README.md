@@ -74,5 +74,4 @@
 ![Distribuição do VA: Pessoal, Governo, Acionistas, Credores](src/plots/area_stacked.png)
 ---
 *Fonte: elaboração própria.*
----
----
+## 2024
