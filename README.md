@@ -2,7 +2,7 @@
 ## Felipe Alves de Morais (2024)
 ---
 ## Modelo da DVA (CPC 09, 2023)
-| **Descrição**                                              | **Em 20X1** | **Em 20X2** |
+| **Descrição**                                              | **Em 20X2** | **Em 20X1** |
 | :--- | ---: | ---: |
 | **1. Receitas**                                           | 1.000.000   | 1.100.000   |
 | 1.1 Vendas de Mercadorias, Produtos e Serviços            | 850.000     | 950.000     |
