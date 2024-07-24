@@ -20,6 +20,7 @@
 | **6. Valor Adicionado Recebido em Transferência**          | 60.000      | 70.000      |
 | 6.1 Receitas Financeiras                                  | 60.000      | 70.000      |
 | **7. Valor Adicionado Total a Distribuir (5+6)**           | 510.000     | 590.000     |
+||||
 | **8. Distribuição do Valor Adicionado (7≡8)**              | 510.000     | 590.000     |
 | **9. Pessoal**                                             | 200.000     | 220.000     |
 | 9.1 Remuneração Direta                                    | 150.000     | 165.000     |
