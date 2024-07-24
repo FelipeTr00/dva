@@ -40,29 +40,36 @@
 | 12.3 Lucros Retidos / Prejuízo do Período                  | 25.000      | 28.000      |
 | 12.4 Part. Não Controladores nos Lucros Retidos            | 5.000       | 5.000       |
 | **13. Outros**                                            | 10.000      | 12.000      |
+---
 *Fonte: adaptado de CPC 09, 2023.*
 
 ---
 ## Série Temporal
 ![Série Temporal](src/plots/timeserie.png)
+---
 *Fonte: elaboração própria.*
 
 ## Ibovespa
 ![Ibovespa](src/plots/ibovespa.png)
+---
 *Fonte: elaboração própria.*
 
 ## PIB de 2009 à 2023 - Ajustado pelo IGP-DI
 ![PIB de 2009 à 2023 - Ajustado pelo IGP-DI](src/plots/pib.png)
+---
 *Fonte: elaboração própria.*
 
 ## Índice de Gini
 ![Índice de Gini](src/plots/gini.png)
+---
 *Fonte: elaboração própria.*
 
 ## Distribuição do VA: Pessoal, Governo, Acionistas, Credores
 ![Distribuição do VA: Pessoal, Governo, Acionistas, Credores](src/plots/stacked_area.png)
+---
 *Fonte: elaboração própria.*
 
 ## Distribuição do VA: Pessoal, Governo, Acionistas, Credores
 ![Distribuição do VA: Pessoal, Governo, Acionistas, Credores](src/plots/area_stacked.png)
+---
 *Fonte: elaboração própria.*
