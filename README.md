@@ -72,9 +72,7 @@
 
 ## Distribuição do VA: Pessoal, Governo, Acionistas, Credores
 ![Distribuição do VA: Pessoal, Governo, Acionistas, Credores](src/plots/area_stacked.png)
-<<<<<<< HEAD
 ---
 *Fonte: elaboração própria.*
-=======
-*Fonte: elaboração própria.*
->>>>>>> b56bc543d40df27ea8b69b65e2d40e33d988d481
+---
+---
