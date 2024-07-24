@@ -1,7 +1,7 @@
 # Carregar os pacotes necessários
 pacman::p_load(dplyr, DBI, RSQLite)
 # Conectar ao banco de dados SQLite
-db <- "D:/monografia/#monografia-github/database/dva.db"
+db <- "D:/monografia/_dva/db/dva.db"
 con <- dbConnect(RSQLite::SQLite(), db)
 
 # Definir a consulta SQL

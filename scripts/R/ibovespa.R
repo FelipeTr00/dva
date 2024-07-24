@@ -1,18 +1,14 @@
-setwd("D:/monografia/#monografia-github")
+setwd("D:/monografia/_dva")
 pacman::p_load(dplyr, psych, ggplot2, tidyr, DBI, RSQLite)
 options(scipen=999);
 
-db_path <- "D:/monografia/#monografia-github/database/dva.db"
+db_path <- "D:/monografia/_dva/db/dva.db"
 
 # Crie uma conexão com o banco de dados
 con <- dbConnect(RSQLite::SQLite(), dbname = db_path)
 
-dados <- dbReadTable(con, "ibovespa")
+dados <- dbReadTable(con, "dva_contas")
 
-# Tratamento de datas
-library(lubridate)
-dados$mes_ano <- as.Date(dados$mes_ano, format = "%Y-%m-%d")
-# dados$mes_ano <- dados$mes_ano
 glimpse(dados)
 
 # GRÁFICO PIB

@@ -1,3 +1,4 @@
+
 pacman::p_load(dplyr)
 options(sapien = 999)
 
@@ -29,7 +30,7 @@ lines(dados$DATA, dados$PIB,
       type = "l", col = "red", lwd = 2)
 lines(dados$DATA, dados$PIB_REAL,
       type = "l", col = "black", lwd = 3)      
-http://127.0.0.1:15169/graphics/plot_zoom_png?width=1062&height=573
+
 # Adicione uma legenda
 legend("bottomright", 
        legend = c("PIB Real*", "PIB Nominal"), 

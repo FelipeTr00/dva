@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "DVA",
+            "database": "${workspaceFolder:_dva}/db/dva.db"
+        }
+    ]
+}
