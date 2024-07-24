@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração do Valor Adicionado</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            padding: 5px;
+            background-color: white;
+            /* Cor de fundo opcional */
+            border-bottom: 1px solid #ccc;
+            /* Borda opcional */
+        }
+
+        .container {
+            width: 800px;
+            /* Define a largura da div */
+            margin: 20px auto;
+            /* Espaçamento vertical e centraliza horizontalmente */
+            text-align: center;
+            /* Centraliza o texto */
+            border: 1px solid #ccc;
+            /* Adiciona uma borda para visualização */
+            padding: 10px;
+            /* Espaçamento interno */
+            box-sizing: border-box;
+            /* Inclui padding e borda no cálculo de largura */
+        }
+
+        .container img {
+            width: 100%;
+            /* Largura máxima da imagem */
+            height: auto;
+            /* Altura automática para manter a proporção */
+            display: block;
+            /* Remove espaço em branco abaixo da imagem */
+            margin: 10px 0;
+            /* Espaçamento acima e abaixo da imagem */
+            border: 1px solid #ccc; 
+        }
+
+        .title {
+            font-size: 1.4em;
+            margin: 10px 0;
+            /* Espaçamento acima e abaixo do título */
+        }
+
+        .description {
+            font-size: 1.2em;
+            padding: 3px;
+            margin: 10px 0;
+            /* Espaçamento acima e abaixo da descrição */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>Demonstração do Valor Adicionado - 2009 à 2023</h1>
+        <h3>Felipe Alves de Morais (2024)</h3>
+        
+    </header>
+    <div class="container">
+        <h2 class="title">Série Temporal</h2>
+        <img src="src/plots/timeserie.png" alt="Photo 1">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    <div class="container">
+        <h2 class="title">Ibovespa</h2>
+        <img src="src/plots/ibovespa.png" alt="Photo 2">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    <div class="container">
+        <h2 class="title">PIB de 2009 à 2023 - Ajustado pelo IGP-DI</h2>
+        <img src="src/plots/pib.png" alt="Photo 3">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    <div class="container">
+        <h2 class="title">Indíce de Gini</h2>
+        <img src="src/plots/gini.png" alt="Photo 3">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    <div class="container">
+        <h2 class="title">Distribuição do VA: Pessoal, Governo, Acionistas, Credores</h2>
+        <img src="src/plots/stacked_area.png" alt="Photo 3">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    <div class="container">
+        <h2 class="title">Distribuição do VA: Pessoal, Governo, Acionistas, Credores</h2>
+        <img src="src/plots/area_stacked.png" alt="Photo 3">
+        <p class="description">Fonte: elaboração própria.</p>
+    </div>
+    
+</body>
+
+</html>
