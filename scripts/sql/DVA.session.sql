@@ -46,3 +46,15 @@ FROM dva_contas
 GROUP BY ANO
 
 ORDER BY ANO;
+
+
+SELECT DISTINCT SETOR_ATIV
+FROM dva;
+
+PRAGMA table_info(pib_bcb);
+
+SELECT DISTINCT CNPJ_CIA FROM dva;
+
+select * FROM pib_bcb;
+
+SELECT * FROM igp_di;

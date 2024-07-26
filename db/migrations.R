@@ -2,7 +2,7 @@ pacman::p_load(tidyr, dplyr, DBI, RSQLite)
 options(sapien = 999)
 
 # Defina o caminho do arquivo CSV
-arquivo <- "D:/monografia/#monografia-github/dados/outros/ibovespa.csv"
+arquivo <- "C:/Users/mrs/Documents/setores.csv"
 
 # Ler o arquivo CSV
 dados <- read.csv2(arquivo, fileEncoding ="utf-8")
@@ -35,31 +35,27 @@ glimpse(dados)
 # Conectar ao banco de dados SQLite
 # Criar uma conexão com o banco de dados
 glimpse(dados)
-con <- dbConnect(RSQLite::SQLite(), "D:/monografia/#monografia-github/database/dva.db")
+con <- dbConnect(RSQLite::SQLite(), "D:/monografia/_dva/db/dva.db")
 
 # Passo 1: Excluir a tabela existente (se necessário)
- dbExecute(con, "DROP TABLE IF EXISTS ibovespa;")
+ dbExecute(con, "DROP TABLE IF EXISTS setores;")
 
 # Passo 2: Criar a nova tabela com a estrutura desejada
 create_table_query <- "
-CREATE TABLE ibovespa (
-    ano INTEGER,
-    mes_ano DATE,
-    valor_em_brl REAL,
-    valor_igpdi_brl REAL,
-    valor_em_usd REAL,
-    n_cias INTEGER
+CREATE TABLE setores (
+    SETOR TEXT,
+    SETOR_ATIV TEXT PRIMARY KEY
 );"
 
 # Executar a consulta para criar a nova tabela
 dbExecute(con, create_table_query)
 
 # Passo 3: Inserir os dados na nova tabela
-dbWriteTable(con, "ibovespa", dados, append = TRUE, row.names = FALSE)
+dbWriteTable(con, "setores", dados, append = TRUE, row.names = FALSE)
 
 # Verificar se a tabela foi criada corretamente
 dbListTables(con)
-dbReadTable(con, "ibovespa")
+dbReadTable(con, "setores")
 
 # Desconectar do banco de dados
 dbDisconnect(con)
