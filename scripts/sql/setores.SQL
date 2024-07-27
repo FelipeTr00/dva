@@ -47,3 +47,14 @@ WHERE ANO in ('2009','2016','2023')
 
 GROUP BY ANO;
 
+SELECT
+    
+    ANO Tempo,
+    (CD_CVM || "-" || ANO) Individuos,
+    Receitas * 0.000000001 Receitas,
+    Pessoal * 0.000000001 Pessoal,
+    Governo * 0.000000001 Governo,
+    RCT * 0.000000001 Credores,
+    RCP * 0.000000001 Acionistas
+
+FROM dva_contas;
