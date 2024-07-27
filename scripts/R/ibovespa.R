@@ -3,10 +3,7 @@ pacman::p_load(dplyr, psych, ggplot2, tidyr, DBI, RSQLite)
 options(scipen=999);
 
 db_path <- "D:/monografia/_dva/db/dva.db"
-
-# Crie uma conexão com o banco de dados
 con <- dbConnect(RSQLite::SQLite(), dbname = db_path)
-
 dados <- dbReadTable(con, "dva_contas")
 
 glimpse(dados)

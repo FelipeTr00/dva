@@ -1,17 +1,20 @@
 
-pacman::p_load(dplyr)
+setwd("D:/monografia/_dva")
+pacman::p_load(dplyr, psych, ggplot2, tidyr, DBI, RSQLite, lubridate)
 options(sapien = 999)
 
-dados <- read.csv2("D:/monografia/#monografia-github/dados/outros/pib_bcb.csv")
-  dados$DATA <- as.Date(dados$DATA, format = "%d/%m/%Y")
-
-dados <- filter(dados, dados$ANO >= 2009)
-  
-glimpse(head(dados,3))
+db_path <- "D:/monografia/_dva/db/dva.db"
+con <- dbConnect(RSQLite::SQLite(), dbname = db_path)
+dados <- dbReadTable(con, "pib_bcb")
+dados$DATA <- as.Date(dados$DATA, "%d/%m/%Y")
+dados <- filter(dados, ANO >= 2009)
+glimpse(dados)
 
 # GRÁFICO PIB
 # Encontre o valor máximo entre as três colunas
 max_y <- max(max(dados$PIB_REAL), max(dados$PIB))
+
+
 
 par(mgp = c(2, 0.5, 0))  # Ajuste os valores conforme necessário
 
@@ -19,7 +22,7 @@ par(mgp = c(2, 0.5, 0))  # Ajuste os valores conforme necessário
 plot(dados$DATA,
      dados$PIB,
      type = "n",  # Defina type = "n" para criar um gráfico vazio
-     xlab = "Ano", ylab = "Valorer (R$ Trilhões)",
+     xlab = "Ano", ylab = "Valores (R$ Trilhões)",
      ylim = c(0, max_y),  # Definir limite do eixo y
      yaxt = "n",   # Não mostrar o eixo Y automaticamente
      xaxt = "n",  # Não mostrar o eixo X automaticamente
@@ -38,10 +41,9 @@ legend("bottomright",
        pch = c(NA, NA),  # Símbolos correspondentes
        lty = 1,
        lwd = 3,
-       cex = 1.4,       # Tamanho da fonte
-       xjust = 1,       # Ajusta a posição horizontal da legenda
-       yjust = 0.5,     # Ajusta a posição vertical da legenda
-       #inset = c(-0.2, 0) # Ajusta a posição da legenda em relação ao gráfico
+       cex = 1.2,       
+       box.lwd = 1   
+       # inset = c(-0.001, 0) # Ajusta a posição da legenda em relação ao gráfico
 )
 
 # Obtenha anos únicos e suas posições correspondentes

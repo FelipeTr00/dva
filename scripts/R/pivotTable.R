@@ -1,5 +1,6 @@
-setwd("/home/morais/Desktop/DVA_ANALISE")
+setwd("D:/monografia/_dva/")
 pacman::p_load(dplyr, tidyr, psych, rpivotTable)
+options(sapien = 999)
 
 dados <- read.csv2("dva_dados_aj.csv", sep = ";" ,dec = ".")
 glimpse(dados)

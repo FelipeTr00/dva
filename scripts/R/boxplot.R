@@ -1,4 +1,4 @@
-setwd("~/Desktop/DVA_ANALISE/ANALISE1")
+setwd("D:/monografia/_dva/")
 pacman::p_load(ggplot2, dplyr, caret, summarytools)
 
 df <- read.csv("dva_wide.csv")
