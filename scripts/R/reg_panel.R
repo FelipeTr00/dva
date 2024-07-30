@@ -1,117 +1,157 @@
 # Carregar os pacotes necessários
-pacman::p_load(dplyr, tidyr, DBI, RSQLite, ggplot2, ggpattern, tidyverse)
+pacman::p_load(dplyr, tidyr, DBI, RSQLite, plm)
+options(sapien =999)
 # Conectar ao banco de dados SQLite
 db <- "D:/monografia/_dva/db/dva.db"
 con <- dbConnect(RSQLite::SQLite(), db)
 
 # Definir a consulta SQL
 query <- "
-SELECT 
-    d.ANO,
-    s.SETOR,
-    ROUND(SUM(d.VATD)) * 0.0000001 VATD
-    
-FROM dva_igpdi d
-RIGHT JOIN setores s
-ON s.SETOR_ATIV = d.SETOR_ATIV
 
-GROUP BY ANO, SETOR;
+SELECT * FROM dva;
 
 "
 
 query2 <- "
 
-SELECT 
-    d.ANO,
-    s.SETOR,
-    --ROUND(SUM(d.VATD) * 0.0000001, 2) AS VATD,
-    ROUND((SUM(d.VATD) * 0.0000001) / total_vatd_ano * 100, 2) AS VATD_PERCENTUAL
-FROM 
-    dva_igpdi d
-RIGHT JOIN 
-    setores s ON s.SETOR_ATIV = d.SETOR_ATIV
-LEFT JOIN 
-    (SELECT 
-         ANO, 
-         SUM(VATD) * 0.0000001 AS total_vatd_ano
-     FROM 
-         dva_igpdi
-     GROUP BY 
-         ANO) AS total 
-    ON d.ANO = total.ANO
-GROUP BY 
-    d.ANO, s.SETOR, total.total_vatd_ano
-ORDER BY 
-    d.ANO, s.SETOR;
-
+SELECT
+    ANO AS Tempo,
+    CD_CVM AS Individuos,
+    Receitas Receitas,
+    Pessoal Pessoal,
+    Governo Governo,
+    RCT Credores,
+    RCP Acionistas
+FROM
+    dva_contas
+WHERE
+    CD_CVM IN (
+        SELECT CD_CVM
+        FROM dva_contas
+        GROUP BY CD_CVM
+        HAVING COUNT(DISTINCT ANO) = (SELECT COUNT(DISTINCT ANO) FROM dva_contas)
+    );
 
 "
 
 # Executar a consulta SQL e coletar os resultados
 df <- dbGetQuery(con, query2)
 
-df <- df %>%
-  pivot_wider(names_from = SETOR, values_from = VATD_PERCENTUAL)
 
 glimpse(head(df,0))
 View(df)
-glimpse(df_long)
 
-# Columns: 6
-#  $ ANO                        <int> 
-#  $ `Comércio e Serviços`      <dbl> 
-#  $ Financeiro                 <dbl> 
-#  $ Indústria                  <dbl> 
-#  $ `Infraestrutura e Energia` <dbl> 
-#  $ Outros                     <dbl> 
+#Columns: 7
+#$ Tempo      <int> 
+#  $ Individuos <chr> 
+#  $ Receitas   <dbl> 
+#  $ Pessoal    <dbl> 
+#  $ Governo    <dbl> 
+#  $ Credores   <dbl> 
+#  $ Acionistas <dbl> 
 
+##########################
+##########################
+##### REG PANEL DATA #####
+##########################
+##########################
 
-# V.3
+# Converter os dados em dados em painel:
+df <- na.omit(df)
+dados_em_painel <- pdata.frame(df, index = c("Individuos", "Tempo"));
 
-ggplot(df_long, aes(x = ANO, y = Valor, fill = Categoria)) +
-  geom_area(position = "stack", color = "#e5e5e5", linewidth = 0.10) + # Define a cor da borda e a largura
-  scale_fill_manual(values = rev(c("Comércio e Serviços" = "#222222",
-                                   "Financeiro" = "#444444", "Indústria" = "#777777",
-                                   "Infraestrutura e Energia" = "#999999"))) +
-  labs(x = "Anos", y = "Valores (%)", fill = "Legenda:") + # Altera o título da legenda
-  theme_minimal() +
-  theme(
-    axis.ticks = element_line(color = "black"),
-    axis.text.x = element_text(hjust = 0.5), # Define a posição dos textos do eixo x para horizontal
-    axis.text.y = element_text(color = "black"),
-    axis.title.x = element_text(color = "black"),
-    axis.title.y = element_text(color = "black"),
-    panel.grid = element_blank(), # Remove as linhas de grade
-    panel.border = element_rect(color = "black", fill = NA), # Adiciona uma borda ao redor do gráfico
-    legend.background = element_rect(color = "black", size = 0.5), # Adiciona uma borda ao redor da legenda
-    legend.key = element_rect(fill = NA, color = NA) # Define o fundo das chaves da legenda como transparente
-  ) +
-  scale_x_continuous(breaks = seq(min(df_long$ANO), max(df_long$ANO), by = 1)) # Mostra todos os anos no eixo x
-
-#
-#
-#
-#
-# V.4
+glimpse(head(dados_em_painel, 1))
+# Modelo de Efeitos Fixos:
+efeitos_fixos <- plm(Pessoal ~ Receitas,
+                     data = dados_em_painel, model = "within");
 
 
-ggplot(df_long, aes(x = ANO, y = Valor, fill = Categoria)) +
-  geom_area_pattern(position = "stack", color = "#e5e5e5", linewidth = 0.10, 
-                    pattern = "circle", pattern_fill = "white", pattern_density = 0.1) + # Define o padrão de hachura
-  scale_fill_manual(values = rev(c("Comércio e Serviços" = "#222222",
-                                   "Financeiro" = "#444444", "Indústria" = "#777777",
-                                   "Infraestrutura e Energia" = "#999999"))) +
-  labs(x = "Anos", y = "Valores (%)", fill = "Legenda:") + # Altera o título da legenda
-  theme_minimal() +
-  theme(
-    axis.ticks = element_line(color = "black"),
-    axis.text.x = element_text(hjust = 0.5), # Define a posição dos textos do eixo x para horizontal
-    axis.text.y = element_text(color = "black"),
-    axis.title.x = element_text(color = "black"),
-    axis.title.y = element_text(color = "black"),
-    panel.grid = element_blank(), # Remove as linhas de grade
-    panel.border = element_rect(color = "black", fill = NA), # Adiciona uma borda ao redor do gráfico
-    legend.background = element_rect(color = "black", size = 0.5), # Adiciona uma borda ao redor da legenda
-    legend.key = element_rect(fill = NA, color = NA) # Define o fundo das chaves da legenda como transparente
-  ) +
-  scale_x_continuous(breaks = seq(min(df_long$ANO), max(df_long$ANO), by = 1)) # Mostra todos os anos no eixo x
+summary(efeitos_fixos);
+
+
+# Converter os dados para painel
+dados_em_painel <- pdata.frame(df, index = c("Individuos", "Tempo"))
+
+# Modelo de Efeitos Fixos: Receitas como variável dependente
+efeitos_fixos <- plm(Receitas ~ Pessoal + Governo + Credores + Acionistas, 
+                     data = dados_em_painel, model = "within")
+
+summary(efeitos_fixos)
+
+
+
+# V.2 MODELO SUR
+
+
+# Ajustar modelos separados
+modelo_pessoal <- plm(Pessoal ~ Receitas, data = dados_em_painel, model = "within")
+modelo_governo <- plm(Governo ~ Receitas, data = dados_em_painel, model = "within")
+modelo_acionistas <- plm(Acionistas ~ Receitas, data = dados_em_painel, model = "within")
+modelo_credores <- plm(Credores ~ Receitas, data = dados_em_painel, model = "within")
+
+# Sumário dos modelos
+summary(modelo_pessoal)
+summary(modelo_governo)
+summary(modelo_acionistas)
+summary(modelo_credores)
+
+# Extrair resíduos
+residuos_pessoal <- residuals(modelo_pessoal)
+residuos_governo <- residuals(modelo_governo)
+residuos_acionistas <- residuals(modelo_acionistas)
+residuos_credores <- residuals(modelo_credores)
+
+# Analisar correlação entre resíduos
+residuos <- data.frame(
+  Pessoal = residuos_pessoal,
+  Governo = residuos_governo,
+  Acionistas = residuos_acionistas,
+  Credores = residuos_credores
+)
+
+cor(residuos, use = "complete.obs")
+
+
+
+# V.3 
+
+pacman::p_load(lavaan)
+
+# Definindo o modelo SEM
+model <- '
+  Pessoal ~ Receitas
+  Governo ~ Receitas
+  Acionistas ~ Receitas
+  Credores ~ Receitas
+'
+
+# Ajustando o modelo SEM
+fit <- sem(model, data = dados_em_painel)
+
+# Sumário do modelo SEM
+summary(fit, fit.measures = TRUE)
+
+
+library(lavaan)
+
+# Definindo o modelo SEM com um fator latente para capturar variância comum
+model <- '
+  # Fator latente
+  F1 =~ Pessoal + Governo + Acionistas + Credores
+  
+  # Regressões
+  Pessoal ~ Receitas
+  Governo ~ Receitas
+  Acionistas ~ Receitas
+  Credores ~ Receitas
+  
+  # Variância do fator latente
+  F1 ~~ F1
+'
+
+# Ajustando o modelo SEM
+fit <- sem(model, data = dados_em_painel)
+
+# Sumário do modelo SEM
+summary(fit, fit.measures = TRUE)
+
