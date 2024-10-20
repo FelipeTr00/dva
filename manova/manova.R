@@ -52,3 +52,4 @@ coef(modelo_pessoal)
 coef(modelo_governo)
 coef(modelo_rct)
 coef(modelo_rcp)
+
